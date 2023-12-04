@@ -13,3 +13,16 @@ stm32ral = { version = "0.8.0", features = ["stm32g474", "rt"] }
 defmt-rtt = "0.4.0"
 rtt-target = { version = "0.3.1", features = ["cortex-m"] }
 defmt = "0.3.5"
+
+[profile.dev]
+codegen-units = 1
+debug = true
+incremental = false
+lto = false
+
+[profile.release]
+opt-level = 'z'
+debug = false
+codegen-units = 1
+incremental = false
+lto = true
