@@ -53,8 +53,8 @@ fn main() -> ! {
 
 #[interrupt]
 fn TIM2() {
+    info!("TIM2 Event occurs");
     let tim2 = tim2::TIM2::take().unwrap();
     modify_reg!(tim2, tim2, SR, UIF: 0);
     tim2::TIM2::release(tim2);
-    info!("TIM2 Event occurs");
 }
