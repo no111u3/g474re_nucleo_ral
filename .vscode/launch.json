@@ -19,7 +19,8 @@
             "coreConfigs": [
                 {
                     "coreIndex": 0,
-                    "programBinary": "target/thumbv7em-none-eabihf/debug/g474re_nucleo_ral"
+                    "programBinary": "target/thumbv7em-none-eabihf/debug/g474re_nucleo_ral",
+                    "svdFile": "STM32G474xx.svd",
                 }
             ],
             "env": {
