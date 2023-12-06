@@ -29,9 +29,6 @@ fn main() -> ! {
         .set_mode_alternate(PinIndex::Pin5)
         .set_speed(PinIndex::Pin5, PinSpeed::HighSpeed)
         .set_alt_func(PinIndex::Pin5, PinAltFunc::Af1);
-    // modify_reg!(gpio, gpio_a, MODER, MODER5: Alternate);
-    // modify_reg!(gpio, gpio_a, OSPEEDR, OSPEEDR5: HighSpeed);
-    // modify_reg!(gpio, gpio_a, AFRL, AFRL5: AF1);
 
     modify_reg!(rcc, rcc, APB1ENR1, TIM2EN: Enabled);
 
