@@ -14,18 +14,24 @@ use stm32ral as ral;
 use ral::{gpio, interrupt, nvic, rcc, tim2};
 use ral::{modify_reg, write_reg};
 
+use g474re_nucleo_ral::gpio::{Gpio, PinAltFunc, PinIndex, PinSpeed};
+
 #[entry]
 fn main() -> ! {
     let rcc = rcc::RCC::take().unwrap();
-    let gpio_a = gpio::GPIOA::take().unwrap();
+    let gpio_a = Gpio::new(gpio::GPIOA::take().unwrap());
     let tim2 = tim2::TIM2::take().unwrap();
     let nvic = nvic::NVIC::take().unwrap();
 
     modify_reg!(rcc, rcc, AHB2ENR, GPIOAEN: Enabled);
 
-    modify_reg!(gpio, gpio_a, MODER, MODER5: Alternate);
-    modify_reg!(gpio, gpio_a, OSPEEDR, OSPEEDR5: HighSpeed);
-    modify_reg!(gpio, gpio_a, AFRL, AFRL5: AF1);
+    gpio_a
+        .set_mode_alternate(PinIndex::Pin5)
+        .set_speed(PinIndex::Pin5, PinSpeed::HighSpeed)
+        .set_alt_func(PinIndex::Pin5, PinAltFunc::Af1);
+    // modify_reg!(gpio, gpio_a, MODER, MODER5: Alternate);
+    // modify_reg!(gpio, gpio_a, OSPEEDR, OSPEEDR5: HighSpeed);
+    // modify_reg!(gpio, gpio_a, AFRL, AFRL5: AF1);
 
     modify_reg!(rcc, rcc, APB1ENR1, TIM2EN: Enabled);
 
