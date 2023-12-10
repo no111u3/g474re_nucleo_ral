@@ -15,13 +15,14 @@ use ral::{gpio, interrupt, nvic, rcc, tim2};
 use ral::{modify_reg, write_reg};
 
 use g474re_nucleo_ral::gpio::{Gpio, PinAltFunc, PinIndex, PinSpeed};
+use g474re_nucleo_ral::nvic::{Interrupt, Nvic};
 
 #[entry]
 fn main() -> ! {
     let rcc = rcc::RCC::take().unwrap();
     let gpio_a = Gpio::new(gpio::GPIOA::take().unwrap());
     let tim2 = tim2::TIM2::take().unwrap();
-    let nvic = nvic::NVIC::take().unwrap();
+    let nvic = Nvic::new(nvic::NVIC::take().unwrap());
 
     modify_reg!(rcc, rcc, AHB2ENR, GPIOAEN: Enabled);
 
@@ -45,9 +46,7 @@ fn main() -> ! {
 
     tim2::TIM2::release(tim2);
 
-    write_reg!(nvic, nvic, ISER0, 1 << (interrupt::TIM2 as u8));
-
-    nvic::NVIC::release(nvic);
+    nvic.enable_interrupt(Interrupt::TIM2);
 
     loop {
         cortex_m::asm::delay(5_000_000);
